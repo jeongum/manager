@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'student_number','name', 'email', 'password',
+        'studentID','name', 'email', 'password',
     ];
 
     /**
@@ -36,4 +36,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function locker_info()
+    {
+        return $this->belongsTo('App\Model\LockerInfo');
+    }
+    
+    public function building_info()
+    {
+        return $this->belongsTo('App\Model\BuildingInfo');
+    }
+    
+    public function owner_info()
+    {
+        return $this->belongsTo('App\Model\OwnerInfo');
+    }
 }

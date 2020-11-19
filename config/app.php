@@ -177,6 +177,7 @@ return [
         
         Brotzka\DotenvEditor\DotenvEditorServiceProvider::class,
 
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

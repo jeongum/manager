@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,17 +12,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@index');
+
+Auth::routes();
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('lockers', 'LockerController');
 });
 
-Route::get('/login',function(){
-    return view('auth.login');
-});
-
-Auth::routes(['verify' => true]);
-
-
-Route::group(['middleware' => ['auth', 'verified']], function() {
-    Route::get('/home', 'HomeController@index')->name('home');
-});
+Route::get('logout', 'Auth\LoginController@logout');

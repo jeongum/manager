@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Model\BuildingInfo;
+use App\Model\LockerInfo;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,7 +16,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//         $this->middleware('auth');
     }
 
     /**
@@ -23,6 +26,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $building_info = BuildingInfo::with('locker_infos','class_infos')->get();
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+            $user = Auth::user()->with('building_info','locker_info')->where('id',$user_id)->first();
+            return view('welcome', compact('building_info','user'));
+        }
+        else{
+            $user = null;
+            return view('welcome', compact('building_info','user'));
+        }
     }
 }

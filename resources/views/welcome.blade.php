@@ -1,464 +1,130 @@
-@extends('master')
+@extends('layouts.master')
 @section('content')
 <!-- Hero -->
-    <section class="section section-header text-dark pb-md-8">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10 text-center mb-5 mb-md-7">
-                    <h1 class="display-2 font-weight-bolder mb-4">
-                        Simple & Reliable.
-                    </h1>
-                    <p class="lead mb-4 mb-lg-5">Simpler remembers your important details, so you can fill carts, not forms. And everything is encrypted so you can speed safely through checkout.</p>
-                    <div>
-                        <a href="#" class="btn btn-dark btn-download-app mb-xl-0 mr-2 mr-md-3">
-                            <span class="d-flex align-items-center">
-                                <span class="icon icon-brand mr-2 mr-md-3"><span class="fab fa-apple"></span></span>
-                                <span class="d-inline-block text-left">
-                                    <small class="font-weight-normal d-none d-md-block">Available on</small> App Store 
-                                </span> 
-                            </span>
-                        </a>
-                        <a href="#" class="btn btn-dark btn-download-app">
-                            <span class="d-flex align-items-center">
-                                <span class="icon icon-brand mr-2 mr-md-3"><span class="fab fa-google-play"></span></span>
-                                <span class="d-inline-block text-left">
-                                    <small class="font-weight-normal d-none d-md-block">Available on</small> Google Play
-                                </span> 
-                            </span>
-                        </a>
-                    </div>
+<section class="section section-header text-dark pb-md-8 bg-soft">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 text-center my-5 my-md-7" id = "main-bg">
+                <h1 class="display-2 font-weight-bold mb-2 black-hans">
+                    세종대학교 소프트웨어학과
+                </h1>
+                <h3 class="display-3 font-weight-bold mb-4 black-hans">
+                    사물함 현황
+                </h3>
+                <div class = "col-10 m-auto">
+                    @foreach ($building_info as $building)
+                    @php $pos=1; $num_l=0; $num_p=0; @endphp
+                    <table class="table table-bordered building-table">
+                		<tbody>
+                			@for ($i = 0; $i < 6; $i++)
+                            <tr>
+                            	@for ($j = 0; $j < 6; $j++)
+                            		@if($num_l < count($building->locker_infos) && $building->locker_infos[$num_l]->position == $pos )
+                                		<td class = "locker-space" data-id = "{{ $building->locker_infos[$num_l]->id }}">{{ $building->locker_infos[$num_l]->locker_id }}</td>
+                                		@php $num_l++; @endphp
+                            		@elseif($num_p < count($building->class_infos) && $building->class_infos[$num_p]->position == $pos )
+                                		<td class = "class-space">{{ $building->class_infos[$num_p]->des }}</td>
+                                		@php $num_p++; @endphp
+                            		@else
+                            			<td class = "empty-space">&nbsp;</td>
+                            		@endif
+                            		@php $pos++; @endphp
+                                @endfor
+                            </tr>
+                            @endfor
+                  		</tbody>
+                    </table>
+                    <p class="mb-4 mb-lg-5">{{ $building->des }}<br><span class ="small">* 사물함 번호를 클릭하면 해당 사물함 현황을 보실 수 있습니다 *</span></p>
+                    
+                    @endforeach
                 </div>
-                <div class="col-12 col-md-10 justify-content-center">
-                    <img class="d-none d-md-inline-block" src="swipe/img/illustrations/scene.svg" alt="Mobile App Mockup">
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section section-lg py-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card border-0 bg-white text-center p-1">
-                        <div class="card-header bg-white border-0 pb-0">
-                            <div class="icon icon-lg icon-primary mb-4">
-                                <span class="fas fa-money-bill-wave"></span>
-                            </div>
-                            <h2 class="h3 text-dark m-0">Pay better</h2>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                                Speed through checkout and offset delivery at the same time.                  
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card border-0 bg-white text-center p-1">
-                        <div class="card-header bg-white border-0 pb-0">
-                            <div class="icon icon-lg icon-primary mb-4">
-                                <span class="fas fa-map-marked-alt"></span>
-                            </div>
-                            <h2 class="h3 text-dark m-0">Track better</h2>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                                Get real-time delivery updates from cart to home in one place.                 
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card border-0 bg-white text-center p-1">
-                        <div class="card-header bg-white border-0 pb-0">
-                            <div class="icon icon-lg icon-primary mb-4">
-                                <span class="fas fa-shopping-basket"></span>
-                            </div>
-                            <h2 class="h3 text-dark m-0">Shop better</h2>
-                        </div>
-                        <div class="card-body">
-                            <p>
-                                Upgrade with personal settings from your favorite stores.                
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section section-lg" id="about">
-        <div class="container">
-            <div class="row justify-content-center mb-5 mb-lg-7">
-                <div class="col-12 col-lg-8 text-center">
-                    <h2 class="h1 mb-4">Better in every way</h2>
-                    <p class="lead">Self-Service Analytics or ad hoc reporting gives users the ability to develop rapid reports, empowering users to analyze their data.</p>
-                </div>
-            </div>
-            <div class="row row-grid align-items-center mb-5 mb-lg-7">
-                <div class="col-12 col-lg-5">
-                    <h2 class="mb-4">A thoughtful way to pay</h2>
-                    <p>Simpler App remembers your important details, so you can fill carts, not forms. And everything is encrypted so you can speed safely through checkout.</p>
-                    <p>Now, you can offset the carbon emissions produced by your deliveries—for free. All you have to do is check out with Shop Pay, one of the first carbon-neutral way to pay.</p>
-                    <a href="#" class="btn btn-dark mt-3 animate-up-2">
-                        Learn More
-                        <span class="icon icon-xs ml-2">
-                            <i class="fas fa-external-link-alt"></i>
+                <div>
+                    <a href="{{route('lockers.index')}}" class="btn btn-dark btn-download-app mb-xl-0 mr-2 mr-md-3">
+                        <span class="d-flex align-items-center">
+                            <span class="icon icon-brand mr-2 mr-md-3 main-page-icon"><i class="far fa-hand-point-up"></i></span>
+                            <span class="d-inline-block text-left">
+                                <small class="font-weight-normal d-none d-md-block"></small> 신청하기 
+                            </span> 
                         </span>
                     </a>
-                </div>
-                <div class="col-12 col-lg-6 ml-lg-auto">
-                    <img src="swipe/img/illustrations/scene-3.svg" class="w-100" alt="">
-                </div>
-            </div>
-            <div class="row row-grid align-items-center mb-5 mb-lg-7">
-                <div class="col-12 col-lg-5 order-lg-2">
-                    <h2 class="mb-4">Get it. Don't sweat it.</h2>
-                    <p>We track your desktop and mobile keyword rankings from any location and plot your full ranking history on a handy graph.</p>
-                    <p>You can set up automated ranking reports to be sent to your email address, so you’ll never forget to check your ranking progress.</p>
-                    <a href="#" class="btn btn-dark mt-3 animate-up-2">
-                        Learn More
-                        <span class="icon icon-xs ml-2">
-                            <i class="fas fa-external-link-alt"></i>
+                    <a  class="btn btn-dark btn-download-app" id="go-my-locker">
+                        <span class="d-flex align-items-center">
+                            <span class="icon icon-brand mr-2 mr-md-3 main-page-icon"><i class="far fa-calendar-check"></i></span>
+                            <span class="d-inline-block text-left">
+                                <small class="font-weight-normal d-none d-md-block"></small> 내사물함 
+                            </span> 
                         </span>
-                    </a>
-                </div>
-                <div class="col-12 col-lg-6 mr-lg-auto">
-                    <img src="swipe/img/illustrations/scene-2.svg" class="w-100" alt="">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="card border-light p-4">
-                        <div class="card-body">
-                            <h2 class="display-2 mb-2">98%</h2>
-                            <span>Average satisfaction rating received in the past year.</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="card border-light p-4">
-                        <div class="card-body">
-                            <h2 class="display-2 mb-2">24/7</h2>
-                            <span> Our support team is a quick chat or email away.</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="card border-light p-4">
-                        <div class="card-body">
-                            <h2 class="display-2 mb-2">220k+</h2>
-                            <span>Extension installs from the two major mobile app stores.</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class="section section-sm py-0">
-        <div class="container">
-            <div class="row text-center mb-5">
-                <div class="col">
-                    <h2 class="h6 font-weight-bold text-brown">We're proudly featured by</h2>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col d-flex justify-content-center flex-wrap">
-                    <a href="#" aria-label="Stripe brand logo" class="icon icon-xl icon-dark mr-4 mr-sm-5"
-                    data-toggle="tooltip" data-placement="top" title="Stripe">
-                        <span class="fab fa-stripe"></span>
-                    </a>
-                    <a href="#" aria-label="Digg brand logo" class="icon icon-xl icon-dark mr-4 mr-sm-5"
-                    data-toggle="tooltip" data-placement="top" title="Digg">
-                        <span class="fab fa-digg"></span>
-                    </a>
-                    <a href="#" aria-label="FedEx brand logo" class="icon icon-xl icon-dark mr-4 mr-sm-5"
-                    data-toggle="tooltip" data-placement="top" title="FedEx">
-                        <span class="fab fa-fedex"></span>
-                    </a>
-                    <a href="#" aria-label="Ember brand logo" class="icon icon-xl icon-dark mr-4 mr-sm-5"
-                    data-toggle="tooltip" data-placement="top" title="Ember">
-                        <span class="fab fa-ember"></span>
-                    </a>
-                    <a href="#" aria-label="Beyond brand logo" class="icon icon-xl icon-dark mr-4 mr-sm-5"
-                    data-toggle="tooltip" data-placement="top" title="Beyond">
-                        <span class="fab fa-d-and-d-beyond"></span>
-                    </a>
-                    <a href="#" aria-label="AngryCreative brand logo" class="icon icon-xl icon-dark"
-                    data-toggle="tooltip" data-placement="top" title="AngryCreative">
-                        <span class="fab fa-angrycreative"></span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    <section class="section section-lg pb-0" id="testimonials">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10 text-center mb-5 mb-lg-6">
-                    <h2 class="display-3 mb-4">Customers love it</h2>
-                    <p class="lead">The final result of our formula at work. Check out what our clients <br class="d-none d-lg-inline-block"> have to say about our mobile app and our support team.</p>
+</section>
+@isset($user)
+    @if($user->has_locker==0)
+    <div class="modal fade" id="mainerrorModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    	사물함이 없습니다!
                 </div>
-            </div>
-            <div class="row mt-lg-6">
-                <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card border-light">
-                        <div class="card-body text-center py-5">
-                            <img class="image-sm img-fluid mx-auto mb-3" src="swipe/img/clients/airbnb.svg" alt="Airbnb brand">
-                            <span class="d-block">
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star far fa-star text-warning"></span>
-                            </span>
-                            <p class="px-2 my-4">Swipe has replaced the whiteboard for us! Being able to jump in the same file with someone fills the gap of not being able to gather in person.</p>
-                            <a href="#" class="btn btn-link text-black">
-                                <span class="mr-2"><span class="fas fa-book-open"></span></span> 
-                                <span class="font-weight-bold">Read story</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card border-light mt-lg-n6">
-                        <div class="card-body text-center py-5">
-                            <img class="image-sm img-fluid mx-auto mb-3" src="swipe/img/clients/corsair.svg" alt="Corsair brand">
-                            <span class="d-block">
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star far fa-star text-warning"></span>
-                            </span>
-                            <p class="px-2 my-4">Swipe has replaced the whiteboard for us! Being able to jump in the same file with someone fills the gap of not being able to gather in person.</p>
-                            <a href="#" class="btn btn-link text-black">
-                                <span class="mr-2"><span class="fas fa-book-open"></span></span> 
-                                <span class="font-weight-bold">Read story</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
-                    <div class="card border-light">
-                        <div class="card-body text-center py-5">
-                            <img class="image-sm img-fluid mx-auto mb-3" src="swipe/img/clients/paypal.svg" alt="Paypal brand">
-                            <span class="d-block">
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star far fa-star text-warning"></span>
-                            </span>
-                            <p class="px-2 my-4">Swipe has replaced the whiteboard for us! Being able to jump in the same file with someone fills the gap of not being able to gather in person.</p>
-                            <a href="#" class="btn btn-link text-black">
-                                <span class="mr-2"><span class="fas fa-book-open"></span></span> 
-                                <span class="font-weight-bold">Read story</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0 mt-lg-4">
-                    <div class="card border-light">
-                        <div class="card-body text-center py-5">
-                            <img class="image-sm img-fluid mx-auto mb-3" src="swipe/img/clients/ebay.svg" alt="Google brand">
-                            <span class="d-block">
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star far fa-star text-warning"></span>
-                            </span>
-                            <p class="px-2 my-4">Swipe has replaced the whiteboard for us! Being able to jump in the same file with someone fills the gap of not being able to gather in person.</p>
-                            <a href="#" class="btn btn-link text-black">
-                                <span class="mr-2"><span class="fas fa-book-open"></span></span> 
-                                <span class="font-weight-bold">Read story</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0 mt-lg-n5">
-                    <div class="card border-light">
-                        <div class="card-body text-center py-5">
-                            <img class="image-sm img-fluid mx-auto mb-3" src="swipe/img/clients/northwestern.svg" alt="northwestern brand">
-                            <span class="d-block">
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star far fa-star text-warning"></span>
-                            </span>
-                            <p class="px-2 my-4">Swipe has replaced the whiteboard for us! Being able to jump in the same file with someone fills the gap of not being able to gather in person.</p>
-                            <a href="#" class="btn btn-link text-black">
-                                <span class="mr-2"><span class="fas fa-book-open"></span></span> 
-                                <span class="font-weight-bold">Read story</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 mt-lg-4">
-                    <div class="card border-light">
-                        <div class="card-body text-center py-5">
-                            <img class="image-sm img-fluid mx-auto mb-3" src="swipe/img/clients/elastic.svg" alt="Elastic brand">
-                            <span class="d-block">
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star fas fa-star text-warning"></span>
-                                <span class="star far fa-star text-warning"></span>
-                            </span>
-                            <p class="px-2 my-4">Swipe has replaced the whiteboard for us! Being able to jump in the same file with someone fills the gap of not being able to gather in person.</p>
-                            <a href="#" class="btn btn-link text-black">
-                                <span class="mr-2"><span class="fas fa-book-open"></span></span> 
-                                <span class="font-weight-bold">Read story</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section section-lg" id="faq">
-        <div class="container">
-            <div class="row justify-content-center mb-5">
-                <div class="col-12 text-center mb-4 mb-lg-5">
-                    <h2 class="display-3 mb-4">Facts & Questions</h2>
-                    <p class="lead">Have a question? Read through our FAQ below. If you can't find an answer, <br class="d-none d-lg-inline-block"> please email our support team. We're here to help.</p>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10">
-                    <!--Accordion-->
-                    <div class="accordion" id="accordionExample">
-                        <div class="card border-light mb-0">
-                            <div class="card-header" id="headingOne">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block d-flex justify-content-between text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <span class="h6 mb-0 font-weight-bold">What is the purpose of a FAQ?</span>
-                                        <span class="icon"><span class="fas fa-plus"></span></span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <p class="mb-0">
-                                        At Themesberg, our mission has always been focused on bringing openness and transparency to the design process. We've always believed that by providing a space where designers can share ongoing work not only empowers them to make better products, it also
-                                        helps them grow. We're proud to be a part of creating a more open culture and to continue building a product that supports this vision.
-                                    </p>                           
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-light mb-0">
-                            <div class="card-header" id="headingTwo">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block d-flex justify-content-between text-left" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <span class="h6 mb-0 font-weight-bold">What is a FAQ document?</span>
-                                        <span class="icon"><span class="fas fa-plus"></span></span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <p class="mb-0">
-                                        At Themesberg, our mission has always been focused on bringing openness and transparency to the design process. We've always believed that by providing a space where designers can share ongoing work not only empowers them to make better products, it also
-                                        helps them grow. We're proud to be a part of creating a more open culture and to continue building a product that supports this vision.
-                                    </p>                           
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-light mb-0">
-                            <div class="card-header" id="headingThree">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block d-flex justify-content-between text-left" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        <span class="h6 mb-0 font-weight-bold">What are the top 10 interview questions?</span>
-                                        <span class="icon"><span class="fas fa-plus"></span></span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <p class="mb-0">
-                                        At Themesberg, our mission has always been focused on bringing openness and transparency to the design process. We've always believed that by providing a space where designers can share ongoing work not only empowers them to make better products, it also
-                                        helps them grow. We're proud to be a part of creating a more open culture and to continue building a product that supports this vision.
-                                    </p>                           
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-light mb-0">
-                            <div class="card-header" id="headingFour">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block d-flex justify-content-between text-left" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                        <span class="h6 mb-0 font-weight-bold">Cookies?</span>
-                                        <span class="icon"><span class="fas fa-plus"></span></span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <p class="mb-0">
-                                        At Themesberg, our mission has always been focused on bringing openness and transparency to the design process. We've always believed that by providing a space where designers can share ongoing work not only empowers them to make better products, it also
-                                        helps them grow. We're proud to be a part of creating a more open culture and to continue building a product that supports this vision.
-                                    </p>                           
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card border-light mb-0">
-                            <div class="card-header" id="headingFive">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block d-flex justify-content-between text-left" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                        <span class="h6 mb-0 font-weight-bold">Copyright Notice</span>
-                                        <span class="icon"><span class="fas fa-plus"></span></span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <p class="mb-0">
-                                        At Themesberg, our mission has always been focused on bringing openness and transparency to the design process. We've always believed that by providing a space where designers can share ongoing work not only empowers them to make better products, it also
-                                        helps them grow. We're proud to be a part of creating a more open culture and to continue building a product that supports this vision.
-                                    </p>                           
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End of Accordion-->
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class="section bg-soft" id="download">
-        <figure class="position-absolute top-0 left-0 w-100 d-none d-md-block mt-n3">
-            <svg class="fill-soft" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 43.4" style="enable-background:new 0 0 1920 43.4;" xml:space="preserve">
-               <path d="M0,23.3c0,0,405.1-43.5,697.6,0c316.5,1.5,108.9-2.6,480.4-14.1c0,0,139-12.2,458.7,14.3 c0,0,67.8,19.2,283.3-22.7v35.1H0V23.3z"></path>
-            </svg>
-        </figure>
-        <div class="container">
-            <div class="row row-grid align-items-center">
-                <div class="col-12 col-lg-6">
-                    <span class="h5 text-muted mb-2 d-block">Download App</span>
-                    <h2 class="display-3 mb-4">Get started in seconds</h2>
-                    <p class="lead text-muted">Quickly connect to tools and services such as Google Analytics, Intercom or Github to track, measure and optimize performance. </p>
-                    <div class="mt-4 mt-lg-5">
-                        <a href="#" class="btn btn-dark btn-download-app mb-xl-0 mr-2 mr-md-3">
-                            <span class="d-flex align-items-center">
-                                <span class="icon icon-brand mr-2 mr-md-3"><span class="fab fa-apple"></span></span>
-                                <span class="d-inline-block text-left">
-                                    <small class="font-weight-normal d-none d-md-block">Available on</small> App Store 
-                                </span> 
-                            </span>
-                        </a>
-                        <a href="#" class="btn btn-dark btn-download-app">
-                            <span class="d-flex align-items-center">
-                                <span class="icon icon-brand mr-2 mr-md-3"><span class="fab fa-google-play"></span></span>
-                                <span class="d-inline-block text-left">
-                                    <small class="font-weight-normal d-none d-md-block">Available on</small> Google Play
-                                </span> 
-                            </span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-5 ml-lg-auto">
-                    <img class="d-none d-lg-inline-block" src="swipe/img/illustrations/scene-3.svg" alt="Mobile App Illustration">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mt-0" data-dismiss="modal">확인</button>
                 </div>
             </div>
         </div>
     </div>
+    
+    @else
+    <div class="modal fade" id="mylockerModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                	<div class = "border-bottom">
+                		<label class = "font-weight-bolder mt-2">위치</label>
+                		<p class="mb-2"><span class = "">{{$user->building_info->des}}</span></p>
+                	</div>
+                	<div class = "border-bottom">
+                		<label class = "font-weight-bolder mt-2">사물함 위치 번호</label>
+                		<p class="mb-2"><span class = "">{{$user->locker_info->locker_id}} 번 사물함</span></p>
+                	</div>
+                	<div class = "border-bottom">
+                		<label class = "font-weight-bolder mt-2">내 사물함 번호</label>
+                		<p class="mb-2"><span class = "">{{$user->owner_info->position}} 번</span></p>
+                	</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mt-0" data-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+@endisset
+<script>
+$(document).ready(function(){
+	$('table.building-table td.locker-space').css('cursor', 'pointer');
+
+	var user = jQuery.parseJSON('{!! json_encode($user) !!}');
+	
+	$("#go-my-locker").click(function(){
+		if(user == null){
+			window.location.href = "login";
+		}
+		else if(user['has_locker'] == 0){
+			$('#mainerrorModal').modal('toggle');
+			
+		}
+		else{
+			$('#mylockerModal').modal('toggle');
+		}
+	});
+});
+
+$("table.building-table td.locker-space").click(function(){
+	var id = $(this).data().id;
+	window.location.href = "lockers/"+id;
+});
+
+</script>
 @endsection
