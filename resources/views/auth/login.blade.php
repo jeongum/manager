@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<section class="min-vh-100 d-flex align-items-center bg-soft">
+<section class="section-header min-vh-100 d-flex align-items-center bg-soft">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
